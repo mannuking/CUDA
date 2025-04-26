@@ -26,13 +26,19 @@ class SimpleCVNet(nn.Module):
     def __init__(self):
         super().__init__()
         self.conv = nn.Sequential(
-            nn.Conv2d(3, 16, 3, 1),
+            nn.Conv2d(3, 32, 3, 1),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(32, 64, 3, 1),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(64, 128, 3, 1),
             nn.ReLU(),
             nn.MaxPool2d(2)
         )
         self.fc = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(16*15*15, 10)
+            nn.Linear(128*2*2, 10)
         )
     def forward(self, x):
         x = self.conv(x)
@@ -44,7 +50,7 @@ loss_fn = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Training
-for epoch in range(2):
+for epoch in range(10):
     optimizer.zero_grad()
     out = model(images)
     loss = loss_fn(out, labels)

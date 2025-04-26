@@ -11,7 +11,7 @@ print(f'Using device: {device}')
 z_dim = 16
 hidden_dim = 32
 batch_size = 128
-num_epochs = 5
+num_epochs = 20
 
 # Simple synthetic data: 1D Gaussian
 real_data = torch.randn(batch_size, 1).to(device)
@@ -44,8 +44,8 @@ class Discriminator(nn.Module):
 gen = Generator().to(device)
 disc = Discriminator().to(device)
 loss_fn = nn.BCELoss()
-gen_opt = optim.Adam(gen.parameters(), lr=0.001)
-disc_opt = optim.Adam(disc.parameters(), lr=0.001)
+gen_opt = optim.Adam(gen.parameters(), lr=0.0002)
+disc_opt = optim.Adam(disc.parameters(), lr=0.0002)
 
 for epoch in range(num_epochs):
     # Train Discriminator

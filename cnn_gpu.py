@@ -26,13 +26,16 @@ class CNN(nn.Module):
     def __init__(self):
         super().__init__()
         self.conv = nn.Sequential(
-            nn.Conv2d(1, 8, 3, 1),
+            nn.Conv2d(1, 16, 3, 1),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+            nn.Conv2d(16, 32, 3, 1),
             nn.ReLU(),
             nn.MaxPool2d(2)
         )
         self.fc = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(8*13*13, 10)
+            nn.Linear(32*5*5, 10)
         )
     def forward(self, x):
         x = self.conv(x)
@@ -44,7 +47,7 @@ loss_fn = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
 # Training
-for epoch in range(2):
+for epoch in range(10):
     optimizer.zero_grad()
     out = model(images)
     loss = loss_fn(out, labels)
